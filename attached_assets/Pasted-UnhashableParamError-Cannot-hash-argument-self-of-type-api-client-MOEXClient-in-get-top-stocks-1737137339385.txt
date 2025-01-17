@@ -1,0 +1,43 @@
+UnhashableParamError: Cannot hash argument 'self' (of type api_client.MOEXClient) in 'get_top_stocks'.
+
+To address this, you can tell Streamlit not to hash this argument by adding a leading underscore to the argument's name in the function signature:
+
+@st.cache_data
+def get_top_stocks(_self, ...):
+    ...
+
+Traceback:
+File "/home/runner/workspace/main.py", line 44, in main
+    stocks = client.get_top_stocks()
+             ^^^^^^^^^^^^^^^^^^^^^^^
+File "/home/runner/workspace/.pythonlibs/lib/python3.11/site-packages/streamlit/runtime/caching/cache_utils.py", line 174, in __call__
+    return self._cached_func(self._instance, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+File "/home/runner/workspace/.pythonlibs/lib/python3.11/site-packages/streamlit/runtime/caching/cache_utils.py", line 218, in __call__
+    return self._get_or_create_cached_value(args, kwargs, spinner_message)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+File "/home/runner/workspace/.pythonlibs/lib/python3.11/site-packages/streamlit/runtime/caching/cache_utils.py", line 233, in _get_or_create_cached_value
+    value_key = _make_value_key(
+                ^^^^^^^^^^^^^^^^
+File "/home/runner/workspace/.pythonlibs/lib/python3.11/site-packages/streamlit/runtime/caching/cache_utils.py", line 457, in _make_value_key
+    raise UnhashableParamError(cache_type, func, arg_name, arg_value, exc)
+File "/home/runner/workspace/.pythonlibs/lib/python3.11/site-packages/streamlit/runtime/caching/cache_utils.py", line 449, in _make_value_key
+    update_hash(
+File "/home/runner/workspace/.pythonlibs/lib/python3.11/site-packages/streamlit/runtime/caching/hashing.py", line 160, in update_hash
+    ch.update(hasher, val)
+File "/home/runner/workspace/.pythonlibs/lib/python3.11/site-packages/streamlit/runtime/caching/hashing.py", line 343, in update
+    b = self.to_bytes(obj)
+        ^^^^^^^^^^^^^^^^^^
+File "/home/runner/workspace/.pythonlibs/lib/python3.11/site-packages/streamlit/runtime/caching/hashing.py", line 325, in to_bytes
+    b = b"%s:%s" % (tname, self._to_bytes(obj))
+                           ^^^^^^^^^^^^^^^^^^^
+File "/home/runner/workspace/.pythonlibs/lib/python3.11/site-packages/streamlit/runtime/caching/hashing.py", line 568, in _to_bytes
+    self.update(h, item)
+File "/home/runner/workspace/.pythonlibs/lib/python3.11/site-packages/streamlit/runtime/caching/hashing.py", line 343, in update
+    b = self.to_bytes(obj)
+        ^^^^^^^^^^^^^^^^^^
+File "/home/runner/workspace/.pythonlibs/lib/python3.11/site-packages/streamlit/runtime/caching/hashing.py", line 325, in to_bytes
+    b = b"%s:%s" % (tname, self._to_bytes(obj))
+                           ^^^^^^^^^^^^^^^^^^^
+File "/home/runner/workspace/.pythonlibs/lib/python3.11/site-packages/streamlit/runtime/caching/hashing.py", line 565, in _to_bytes
+    raise UnhashableTypeError() from ex
